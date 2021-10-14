@@ -1,5 +1,6 @@
 ## /scratch/sqhan/11.xyl/20210702/results/sites
-
+## time: 2021.10.14
+## usage: python get_bam_stop_rate.py total.pos.filter.bam ~/project/project/00.DATABASE/hg38/bowtie2_index/hg38.fa
 
 import sys
 import pysam
