@@ -1,5 +1,5 @@
 ## m6A-ORL-Seq
-Content
+### Content
 m6A-ORL-Seq includes following steps:
 
 1_m6AMapping.py: fastuniq and seqtk trimfq were used before map the reads to the genome.
@@ -10,5 +10,6 @@ m6A-ORL-Seq includes following steps:
 
 HOMERMotif.sh:findMotifsGenome.pl is used to calculate m6A motifs
 
-Raw and processed data files for this study:
+### Raw and processed data files for this study:
+
 Raw data files are available at NCBI Gene Expression Omnibus (GEO) (https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE185753).
