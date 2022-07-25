@@ -12,7 +12,7 @@ rule all:
 		outdir + "/m6A.sites.ACA"
 
 
-rule ip_sites_pos:
+rule ip_sites_pos: # get ip RT stop sites in positvie strand
 	input:
 		indir + "/sites/sample.pos.filter.bam"
 	output:
@@ -22,7 +22,7 @@ rule ip_sites_pos:
 	shell:
 		"python {params} {input} {GENOME_fa} > {output}"
 
-rule ip_sites_neg:
+rule ip_sites_neg: # get ip RT stop sites in negtvie strand
 	input:
 		indir + "/sites/sample.neg.filter.bam"
 	output:
