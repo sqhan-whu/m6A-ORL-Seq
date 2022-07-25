@@ -9,8 +9,8 @@ path = config["path"]
 
 indir = path + "/fq"
 outdir = path + "/results"
-seqtk_fq1_e = 10
-seqtk_fq2_b = 10
+seqtk_fq1_e = 10   # NNNNNNNNNN barcode in reads1 3' position
+seqtk_fq2_b = 10   # NNNNNNNNNN barcode in reads2 5' position
 seqtk_fq2_e = 0
 
 rule all:
@@ -41,7 +41,7 @@ rule echo_uniq:
 		outdir + "/clean_fq/{sample}_uniq_list.txt"
 	shell:
 		"echo \"{input.fq1}\n{input.fq2}\" > {output}"
-rule fastuniq:
+rule fastuniq: # remove PCR duplication
 	input:
 		outdir + "/clean_fq/{sample}_uniq_list.txt"
 	output:
@@ -49,21 +49,21 @@ rule fastuniq:
 		fq2 = temp(outdir + "/clean_fq/{sample}_uniq_2.fq")
 	shell:
 		"fastuniq -i {input} -o {output.fq1} -p {output.fq2}"
-rule seqtk_trimfq1:
+rule seqtk_trimfq1: # trim randomer NNNNNNNNNN
 	input:
 		outdir + "/clean_fq/{sample}_uniq_1.fq"
 	output:
 		temp(outdir + "/clean_fq/{sample}_seqtk_1.fq")
 	shell:
 		"seqtk trimfq -e {seqtk_fq1_e} {input} > {output}"
-rule seqtk_trimfq2:
+rule seqtk_trimfq2: # trim randomer NNNNNNNNNN
 	input:
 		outdir + "/clean_fq/{sample}_uniq_2.fq"
 	output:
 		temp(outdir + "/clean_fq/{sample}_seqtk_2.fq")
 	shell:
 		"seqtk trimfq -b {seqtk_fq2_b} -e {seqtk_fq2_e} {input} > {output}"
-rule rRNA_remove:
+rule rRNA_remove: # remove rRNA
 	input:
 		fq1 = outdir + "/clean_fq/{sample}_seqtk_1.fq",
 		fq2 = outdir + "/clean_fq/{sample}_seqtk_2.fq"
@@ -78,7 +78,7 @@ rule rRNA_remove:
 	shell:
 		"bowtie -p {threads} {rRNA_database} -1 {input.fq1} -2 {input.fq2} --un {params} -S {output.sam}"
 
-rule star_mapping:
+rule star_mapping: # mapping human hg38 genome 
 	input:
 		outdir + "/clean_fq/{sample}_rmrRNA_1.fq",
 		outdir + "/clean_fq/{sample}_rmrRNA_2.fq"
@@ -91,7 +91,7 @@ rule star_mapping:
 	shell:
 		"STAR --genomeDir {star_index} --readFilesIn {input} --runThreadN {threads} --outFilterMultimapNmax 20 --outFilterMismatchNmax 10 --readFilesCommand cat --outSAMtype BAM SortedByCoordinate --outFileNamePrefix {params}"
 
-rule filter_bam:
+rule filter_bam: # filter bam files
 	input:
 		outdir + "/bam/{sample}.Aligned.sortedByCoord.out.bam"
 	output:
