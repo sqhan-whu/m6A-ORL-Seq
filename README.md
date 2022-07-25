@@ -8,7 +8,9 @@ m6A-ORL-Seq includes following steps:
 
 3_SnakeSites.py: Distinguish between positive and negative chains, it is used to distinguish between positive and negative chains, and obtain the Stop sites on the positive and negative chains respectively.
 
-HOMERMotif.sh:findMotifsGenome.pl is used to calculate m6A motifs
+HOMERMotif.sh:findMotifsGenome.pl is used to calculate m6A motifs.
+
+get_bam_stop_rate.py and get_bam_stop_rate_neg.py: screen RT stop sites from filtered bam files.
 
 ### Raw and processed data files for this study:
 
